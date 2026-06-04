@@ -95,7 +95,12 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
             return ItemStack.EMPTY;
         }
 
-        return ContainerHelper.takeItem(templateInHere, i);
+        ItemStack removed = ContainerHelper.takeItem(templateInHere, i);
+        if (!removed.isEmpty()) {
+            setChanged();
+            sync();
+        }
+        return removed;
     }
 
     @Override
@@ -171,13 +176,26 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
     }
 
     public Identifier getSelectedTemplateId() {
-        List<Identifier> ids = Templatetransformer.REGISTERED_SMITHING_TEMPLATE_IDS;
+        List<Identifier> ids = Util.getRegisteredSmithingTemplateIds();
         if (ids.isEmpty()) {
             return null;
         }
 
         normalizeSelectedTemplateIndex();
         return ids.get(selectedTemplateIndex);
+    }
+
+    public int getSelectedTemplateIndex() {
+        normalizeSelectedTemplateIndex();
+        return selectedTemplateIndex;
+    }
+
+    public float getRenderAnimationTicks(float partialTick) {
+        if (level == null) {
+            return partialTick;
+        }
+
+        return level.getGameTime() + partialTick;
     }
 
     public static void tick(net.minecraft.world.level.Level level, BlockPos pos, BlockState state, BETemplateTransformerAltar altar) {
@@ -213,7 +231,7 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
     }
 
     public void cycleSelection(int step) {
-        List<Identifier> ids = Templatetransformer.REGISTERED_SMITHING_TEMPLATE_IDS;
+        List<Identifier> ids = Util.getRegisteredSmithingTemplateIds();
         if (ids.isEmpty() || isConverting() || isSwitchingTarget()) {
             return;
         }
@@ -267,7 +285,7 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
     }
 
     private void finishTargetSwitch() {
-        List<Identifier> ids = Templatetransformer.REGISTERED_SMITHING_TEMPLATE_IDS;
+        List<Identifier> ids = Util.getRegisteredSmithingTemplateIds();
         if (!ids.isEmpty() && pendingSelectionStep != 0) {
             normalizeSelectedTemplateIndex();
             selectedTemplateIndex = Math.floorMod(selectedTemplateIndex + pendingSelectionStep, ids.size());
@@ -278,7 +296,7 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
     }
 
     private void normalizeSelectedTemplateIndex() {
-        List<Identifier> ids = Templatetransformer.REGISTERED_SMITHING_TEMPLATE_IDS;
+        List<Identifier> ids = Util.getRegisteredSmithingTemplateIds();
         if (ids.isEmpty()) {
             selectedTemplateIndex = 0;
             return;

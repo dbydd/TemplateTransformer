@@ -134,6 +134,10 @@ public class BlockTemplateTransformerAltar extends Block implements EntityBlock
             return InteractionResult.CONSUME.withoutItem();
         }
 
+        if (!player.isShiftKeyDown()) {
+            return InteractionResult.PASS;
+        }
+
         if (level.isClientSide()) {
             return altar.isEmpty() ? InteractionResult.PASS : InteractionResult.SUCCESS.withoutItem();
         }

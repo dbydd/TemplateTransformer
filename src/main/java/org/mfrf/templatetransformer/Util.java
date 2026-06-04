@@ -1,5 +1,6 @@
 package org.mfrf.templatetransformer;
 
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
@@ -21,6 +22,16 @@ public class Util {
         return switch (templateList) {
             case ValidList validList -> validList.list().stream().anyMatch(itemStack::is);
             case None _ -> false;
+            default -> throw new IllegalStateException("unreachable!");
+        };
+    }
+
+    public static List<Identifier> getRegisteredSmithingTemplateIds() {
+        return switch (templateList) {
+            case ValidList validList -> validList.list().stream()
+                    .map(ResourceKey::identifier)
+                    .toList();
+            case None _ -> List.of();
             default -> throw new IllegalStateException("unreachable!");
         };
     }
