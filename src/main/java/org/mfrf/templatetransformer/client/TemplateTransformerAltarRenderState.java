@@ -10,5 +10,11 @@ public class TemplateTransformerAltarRenderState extends BlockEntityRenderState 
     public ItemStackRenderState insertedTemplate = new ItemStackRenderState();
     public final List<ItemStackRenderState> convertibleTemplates = new ArrayList<>();
     public int selectedTemplateIndex;
+    public int pendingSelectionStep;
+    public boolean converting;
+    public boolean switchingTarget;
+    public float conversionProgress;
+    public float switchProgress;
+    public long seed;
     public float animationTicks;
 }

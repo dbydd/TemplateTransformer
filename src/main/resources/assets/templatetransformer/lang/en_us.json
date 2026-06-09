@@ -1,5 +1,5 @@
 {
-  "itemGroup.templatetransformer": "Example Mod Tab",
-  "block.templatetransformer.example_block": "Example Block",
-  "item.templatetransformer.example_item": "Example Item"
+  "itemGroup.templatetransformer": "Template Transformer",
+  "block.templatetransformer.template_transformer_altar": "Template Transformer Altar",
+  "container.mfrf.templatetransformer.template_transformer_altar": "Template Transformer Altar"
 }

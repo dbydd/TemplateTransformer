@@ -1,0 +1,20 @@
+{
+  "multipart": [
+    {
+      "when": { "facing": "north" },
+      "apply": { "model": "templatetransformer:block/template_transformer_altar" }
+    },
+    {
+      "when": { "facing": "east" },
+      "apply": { "model": "templatetransformer:block/template_transformer_altar", "y": 90 }
+    },
+    {
+      "when": { "facing": "south" },
+      "apply": { "model": "templatetransformer:block/template_transformer_altar", "y": 180 }
+    },
+    {
+      "when": { "facing": "west" },
+      "apply": { "model": "templatetransformer:block/template_transformer_altar", "y": 270 }
+    }
+  ]
+}

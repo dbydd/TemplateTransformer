@@ -1,0 +1,145 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "templatetransformer:block/altar_base",
+    "base": "templatetransformer:block/altar_base",
+    "side": "templatetransformer:block/altar_side",
+    "rune": "templatetransformer:block/altar_rune",
+    "core": "templatetransformer:block/altar_core",
+    "glass": "templatetransformer:block/altar_glass"
+  },
+  "elements": [
+    {
+      "name": "shadow_plinth",
+      "from": [1, 0, 1],
+      "to": [15, 2, 15],
+      "faces": {
+        "north": { "uv": [1, 14, 15, 16], "texture": "#side" },
+        "south": { "uv": [1, 14, 15, 16], "texture": "#side" },
+        "east": { "uv": [1, 14, 15, 16], "texture": "#side" },
+        "west": { "uv": [1, 14, 15, 16], "texture": "#side" },
+        "up": { "uv": [1, 1, 15, 15], "texture": "#base" },
+        "down": { "uv": [1, 1, 15, 15], "texture": "#base", "cullface": "down" }
+      }
+    },
+    {
+      "name": "beveled_base",
+      "from": [2, 2, 2],
+      "to": [14, 4, 14],
+      "faces": {
+        "north": { "uv": [2, 12, 14, 14], "texture": "#side" },
+        "south": { "uv": [2, 12, 14, 14], "texture": "#side" },
+        "east": { "uv": [2, 12, 14, 14], "texture": "#side" },
+        "west": { "uv": [2, 12, 14, 14], "texture": "#side" },
+        "up": { "uv": [2, 2, 14, 14], "texture": "#rune" },
+        "down": { "uv": [2, 2, 14, 14], "texture": "#base" }
+      }
+    },
+    {
+      "name": "central_socket",
+      "from": [5, 4, 5],
+      "to": [11, 5, 11],
+      "faces": {
+        "north": { "uv": [5, 11, 11, 12], "texture": "#core" },
+        "south": { "uv": [5, 11, 11, 12], "texture": "#core" },
+        "east": { "uv": [5, 11, 11, 12], "texture": "#core" },
+        "west": { "uv": [5, 11, 11, 12], "texture": "#core" },
+        "up": { "uv": [5, 5, 11, 11], "texture": "#core" },
+        "down": { "uv": [5, 5, 11, 11], "texture": "#base" }
+      }
+    },
+    {
+      "name": "front_redstone_slot",
+      "from": [6, 4.05, 1.5],
+      "to": [10, 4.25, 5],
+      "faces": {
+        "up": { "uv": [6, 1, 10, 5], "texture": "#core" },
+        "north": { "uv": [6, 15, 10, 16], "texture": "#core" },
+        "south": { "uv": [6, 15, 10, 16], "texture": "#core" }
+      }
+    },
+    {
+      "name": "left_redstone_slot",
+      "from": [1.5, 4.05, 6],
+      "to": [5, 4.25, 10],
+      "faces": {
+        "up": { "uv": [1, 6, 5, 10], "texture": "#core" },
+        "east": { "uv": [6, 15, 10, 16], "texture": "#core" },
+        "west": { "uv": [6, 15, 10, 16], "texture": "#core" }
+      }
+    },
+    {
+      "name": "right_redstone_slot",
+      "from": [11, 4.05, 6],
+      "to": [14.5, 4.25, 10],
+      "faces": {
+        "up": { "uv": [11, 6, 15, 10], "texture": "#core" },
+        "east": { "uv": [6, 15, 10, 16], "texture": "#core" },
+        "west": { "uv": [6, 15, 10, 16], "texture": "#core" }
+      }
+    },
+    {
+      "name": "north_pylon",
+      "from": [2, 4, 2],
+      "to": [4, 8, 4],
+      "faces": {
+        "north": { "uv": [2, 8, 4, 12], "texture": "#side" },
+        "south": { "uv": [2, 8, 4, 12], "texture": "#side" },
+        "east": { "uv": [2, 8, 4, 12], "texture": "#rune" },
+        "west": { "uv": [2, 8, 4, 12], "texture": "#rune" },
+        "up": { "uv": [2, 2, 4, 4], "texture": "#glass" }
+      }
+    },
+    {
+      "name": "east_pylon",
+      "from": [12, 4, 2],
+      "to": [14, 8, 4],
+      "faces": {
+        "north": { "uv": [12, 8, 14, 12], "texture": "#side" },
+        "south": { "uv": [12, 8, 14, 12], "texture": "#side" },
+        "east": { "uv": [12, 8, 14, 12], "texture": "#rune" },
+        "west": { "uv": [12, 8, 14, 12], "texture": "#rune" },
+        "up": { "uv": [12, 2, 14, 4], "texture": "#glass" }
+      }
+    },
+    {
+      "name": "south_pylon",
+      "from": [12, 4, 12],
+      "to": [14, 8, 14],
+      "faces": {
+        "north": { "uv": [12, 4, 14, 8], "texture": "#side" },
+        "south": { "uv": [12, 4, 14, 8], "texture": "#side" },
+        "east": { "uv": [12, 4, 14, 8], "texture": "#rune" },
+        "west": { "uv": [12, 4, 14, 8], "texture": "#rune" },
+        "up": { "uv": [12, 12, 14, 14], "texture": "#glass" }
+      }
+    },
+    {
+      "name": "west_pylon",
+      "from": [2, 4, 12],
+      "to": [4, 8, 14],
+      "faces": {
+        "north": { "uv": [2, 4, 4, 8], "texture": "#side" },
+        "south": { "uv": [2, 4, 4, 8], "texture": "#side" },
+        "east": { "uv": [2, 4, 4, 8], "texture": "#rune" },
+        "west": { "uv": [2, 4, 4, 8], "texture": "#rune" },
+        "up": { "uv": [2, 12, 4, 14], "texture": "#glass" }
+      }
+    },
+    {
+      "name": "floating_crystal_lower",
+      "from": [6, 7, 6],
+      "to": [10, 10, 10],
+      "rotation": { "origin": [8, 8.5, 8], "axis": "y", "angle": 45 },
+      "faces": {
+        "north": { "uv": [6, 6, 10, 10], "texture": "#glass" },
+        "south": { "uv": [6, 6, 10, 10], "texture": "#glass" },
+        "east": { "uv": [6, 6, 10, 10], "texture": "#glass" },
+        "west": { "uv": [6, 6, 10, 10], "texture": "#glass" },
+        "up": { "uv": [6, 6, 10, 10], "texture": "#glass" },
+        "down": { "uv": [6, 6, 10, 10], "texture": "#glass" }
+      }
+    }
+  ]
+}

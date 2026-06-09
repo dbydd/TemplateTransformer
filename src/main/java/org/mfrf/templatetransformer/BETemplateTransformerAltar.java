@@ -7,6 +7,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
@@ -173,6 +174,30 @@ public class BETemplateTransformerAltar extends BlockEntity implements Nameable,
 
     public boolean isSwitchingTarget() {
         return selectionSwitchTicksRemaining > 0;
+    }
+
+    public int getConversionTicksRemaining() {
+        return conversionTicksRemaining;
+    }
+
+    public int getPendingSelectionStep() {
+        return pendingSelectionStep;
+    }
+
+    public float getConversionProgress(float partialTick) {
+        if (!isConverting()) {
+            return 0.0F;
+        }
+
+        return 1.0F - Mth.clamp((conversionTicksRemaining - partialTick) / (float) CONVERSION_DURATION_TICKS, 0.0F, 1.0F);
+    }
+
+    public float getSelectionSwitchProgress(float partialTick) {
+        if (!isSwitchingTarget()) {
+            return 0.0F;
+        }
+
+        return 1.0F - Mth.clamp((selectionSwitchTicksRemaining - partialTick) / (float) TARGET_SWITCH_DURATION_TICKS, 0.0F, 1.0F);
     }
 
     public Identifier getSelectedTemplateId() {

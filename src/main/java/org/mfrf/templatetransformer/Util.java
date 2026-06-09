@@ -1,11 +1,15 @@
 package org.mfrf.templatetransformer;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.neoforged.neoforge.common.extensions.IHolderExtension;
 
 import java.util.List;
@@ -31,21 +35,37 @@ public class Util {
             case ValidList validList -> validList.list().stream()
                     .map(ResourceKey::identifier)
                     .toList();
-            case None _ -> List.of();
+            case None _ -> getBuiltInSmithingTemplateIds();
             default -> throw new IllegalStateException("unreachable!");
         };
     }
 
+    public static void reloadTemplates(ReloadableServerResources serverResources) {
+        reloadTemplates(serverResources.getRecipeManager());
+    }
+
+    public static void reloadTemplates(RecipeManager recipeManager) {
+        templateList = new ValidList(recipeManager.getRecipes().stream()
+                .map(recipeHolder -> recipeHolder.value())
+                .filter(SmithingRecipe.class::isInstance)
+                .map(SmithingRecipe.class::cast)
+                .flatMap(recipe -> recipe.templateIngredient().stream())
+                .flatMap(ingredient -> ingredient.getValues().stream().map(IHolderExtension::getKey))
+                .distinct()
+                .toList());
+    }
+
+    private static List<Identifier> getBuiltInSmithingTemplateIds() {
+        return BuiltInRegistries.ITEM.entrySet().stream()
+                .filter(entry -> entry.getValue() instanceof SmithingTemplateItem)
+                .map(entry -> entry.getKey().identifier())
+                .sorted()
+                .toList();
+    }
+
     private static void ensureTemplatesLoaded(ServerLevel level) {
         if (templateList instanceof None) {
-            templateList = new ValidList(level.recipeAccess()
-                    .recipeMap()
-                    .byType(RecipeType.SMITHING)
-                    .stream()
-                    .flatMap(recipeHolder -> recipeHolder.value().templateIngredient().stream())
-                    .flatMap(ingredient -> ingredient.getValues().stream().map(IHolderExtension::getKey))
-                    .distinct()
-                    .toList());
+            reloadTemplates(level.getServer().getRecipeManager());
         }
     }
 }

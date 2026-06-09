@@ -2,8 +2,8 @@ package org.mfrf.templatetransformer;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -16,11 +16,16 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.resource.VanillaServerListeners;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.mfrf.templatetransformer.client.TemplateTransformerClientBootstrap;
 import org.slf4j.Logger;
 
 import java.util.function.Supplier;
@@ -30,6 +35,7 @@ import java.util.function.Supplier;
 public class Templatetransformer {
     public static final String MODID = "templatetransformer";
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Identifier TEMPLATE_LIST_RELOAD_LISTENER = Identifier.fromNamespaceAndPath(MODID, "template_list");
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
@@ -68,8 +74,20 @@ public class Templatetransformer {
         BLOCK_ENTITY_TYPES.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
+        NeoForge.EVENT_BUS.addListener(this::addServerReloadListeners);
+
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            TemplateTransformerClientBootstrap.init(modEventBus);
+        }
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    private void addServerReloadListeners(AddServerReloadListenersEvent event) {
+        event.addListener(TEMPLATE_LIST_RELOAD_LISTENER, (sharedState, preparationExecutor, preparationBarrier, reloadExecutor) ->
+                preparationBarrier.wait(event.getServerResources())
+                        .thenAcceptAsync(Util::reloadTemplates, reloadExecutor));
+        event.addDependency(VanillaServerListeners.RECIPES, TEMPLATE_LIST_RELOAD_LISTENER);
     }
 
     // Add the example block item to the building blocks tab

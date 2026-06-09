@@ -1,12 +1,11 @@
 package org.mfrf.templatetransformer.client;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-
-@Mod(value = "templatetransformer", dist = net.neoforged.api.distmarker.Dist.CLIENT)
-public class TemplateTransformerClientMod {
-    public TemplateTransformerClientMod(IEventBus modEventBus, ModContainer modContainer) {
-        TemplateTransformerClientBootstrap.init(modEventBus);
+/**
+ * Client bootstrap is wired from the main mod constructor via a dist guard.
+ * Keeping this class non-annotated avoids registering a second @Mod entrypoint
+ * with the same mod id on the client.
+ */
+public final class TemplateTransformerClientMod {
+    private TemplateTransformerClientMod() {
     }
 }
